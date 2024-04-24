@@ -1,17 +1,16 @@
-const express = require('express')
-const app = express()
+const express = require('express');
+const bodyParser = require('body-parser');
+const personController = require('./WebApi/PersonController');
 
-let persons = [{
-    id: '1',
-    name: 'Sam',
-    age: '26',
-    hobbies: []    
-}] //This is your in memory database
 
-app.set('db', persons)
-//TODO: Implement crud of person
+const app = express();
 
-if (require.main === module) {
-    app.listen(3000)
-}
-module.exports = app;
+app.use(bodyParser.json());
+
+app.use(personController);
+
+
+const PORT = 3000;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
