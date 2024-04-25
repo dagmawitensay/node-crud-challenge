@@ -17,7 +17,7 @@ class PersonService {
     }
 
     savePerson(person) {
-        this.personsDatabase.createPerson(person);
+        return this.personsDatabase.createPerson(person);
     }
 
     updatePerson(personId, person) {

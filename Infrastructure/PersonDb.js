@@ -1,14 +1,8 @@
 const { v4: uuidv4 } = require('uuid');
 
 class PersonDatabase {
-    constructor() {
-        this.validate = require('./validator');
-        this.persons = [{
-            id: '1',
-            name: 'Sam',
-            age: '26',
-            hobbies: []    
-        }]
+    constructor(database) {
+        this.persons = database;
     }
     
     getPersonById(id) {
@@ -21,8 +15,6 @@ class PersonDatabase {
     }
 
     createPerson(person) {
-        this.validate(person);
-
         const id = uuidv4();
         const existingUser = this.persons.find(p => p.id === id);
 
@@ -33,18 +25,19 @@ class PersonDatabase {
         person.id = id;
 
         this.persons.push(person);
+        return person;
     }
 
     updatePerson(personId, person) {
-        this.validate(person);
 
-        const existingUserId = this.persons.find(p => p.id === personId);
+        const existingUserIndex = this.persons.findIndex(p => p.id === personId)
 
-        if (existingUserId === -1) {
+        if (existingUserIndex === -1) {
             throw new Error('Person not found');
         }
+        person.id = personId;
 
-        this.persons[existingUserId] = person;
+        this.persons[existingUserIndex] = person;
     }
 
     deletePerson(id) {

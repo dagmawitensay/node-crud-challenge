@@ -1,16 +1,34 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const personController = require('./WebApi/PersonController');
+const setupPersonController = require('./WebApi/PersonController');
+var cors = require('cors');
 
 
 const app = express();
+app.use(cors({
+    origin: 'http://localhost:3000'
+  }
+))
 
+let persons = [{
+    id: '1',
+    name: 'Sam',
+    age: '26',
+    hobbies: []    
+}] //This is your in memory database
+
+app.set('db', persons)
+
+//TODO: Implement crud of person
 app.use(bodyParser.json());
 
-app.use(personController);
+setupPersonController(app);
 
+PORT = 3000
 
-const PORT = 3000;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+if (require.main === module) {
+    app.listen(3000)
+    console.log("server running on port 3000")
+}
+
+module.exports = app
